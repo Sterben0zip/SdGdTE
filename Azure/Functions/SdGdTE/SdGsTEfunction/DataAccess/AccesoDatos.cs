@@ -4,42 +4,41 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace SdGsTEfunction.DataAccess
 {
     public class AccesoDatos
     {
+		private readonly string _cadenaEddye = "Server=tcp:sdgdte.database.windows.net,1433;Initial Catalog=SdGdTEDB;" +
+				"User ID=sdgdte;Password=J2Tg6_gDdaMiJk-;" +
+				"Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;" +
+				"Connection Timeout=30;";
+		private readonly string _cadenaChofen = "Server=tcp:learningmanagementsrvr.database.windows.net,1433;Initial Catalog=learningmanagementdb;" +
+				"Persist Security Info=False;User ID=lmsa;Password=Lm@16022309Db;" +
+				"MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;" +
+				"Connection Timeout=30;";
         private readonly string _cadenaCon;
 		private readonly SqlConnection _conexion;
 
-		public AccesoDatos()
+		public AccesoDatos(OrigenDatos origen)
 		{
-			_cadenaCon = "Server=tcp:sdgdte.database.windows.net,1433;" +
-				"Initial Catalog=SdGdTEDB;" +
-				"Persist Security Info=False;" +
-				"User ID=sdgdte;" +
-				"Password=J2Tg6_gDdaMiJk-;" +
-				"MultipleActiveResultSets=False;" +
-				"Encrypt=True;" +
-				"TrustServerCertificate=False;" +
-				"Connection Timeout=30;";
-
+			_cadenaCon = origen == OrigenDatos.AzureEddye ? _cadenaEddye : _cadenaChofen;
 			_conexion = new SqlConnection(_cadenaCon);
 		}
 
-		internal int Insertar(Estudiante estudiante)
+		internal async Task<int> EjecutarComando(SqlCommand cmd)
 		{
 			int res = 0;
-
-			SqlCommand insertarCmd = new SqlCommand("INSERT INTO ESTUDIANTES VALUES (@nombre, @correo, @password)", _conexion);
-			insertarCmd.Parameters.AddWithValue("@nombre", estudiante.Nombre);
-			insertarCmd.Parameters.AddWithValue("@correo", estudiante.Correo);
-			insertarCmd.Parameters.AddWithValue("@password", estudiante.Password);
+			cmd.Connection = _conexion;
 
 			try
 			{
-				insertarCmd.Connection.Open();
-				res = insertarCmd.ExecuteNonQuery();
+				await Task.Run(async () =>
+				{
+					cmd.Connection.Open();
+					res = await cmd.ExecuteNonQueryAsync();
+				});
 			}
 			catch (Exception ex)
 			{
@@ -47,36 +46,28 @@ namespace SdGsTEfunction.DataAccess
 			}
 			finally
 			{
-				if (insertarCmd.Connection.State == ConnectionState.Open)
+				if (cmd.Connection.State == ConnectionState.Open)
 				{
-					insertarCmd.Connection.Close();
+					cmd.Connection.Close();
 				}
 			}
 
 			return res;
 		}
 
-		internal List<Estudiante> GetEstudiantes()
+		internal async Task<DataTable> EjecutarConsulta(SqlCommand cmd)
 		{
-			List<Estudiante> estudiantes = new List<Estudiante>();
-			SqlCommand consultarCmd = new SqlCommand("SELECT * FROM ESTUDIANTES", _conexion);
-			SqlDataAdapter sda = new SqlDataAdapter(consultarCmd);
+			SqlDataAdapter sda = new SqlDataAdapter(cmd);
 			DataTable dtResult = new DataTable();
-			
+			cmd.Connection = _conexion;
+
 			try
 			{
-				consultarCmd.Connection.Open();
-				sda.Fill(dtResult);
-
-				foreach (DataRow row in dtResult.Rows)
+				await Task.Run(() =>
 				{
-					estudiantes.Add(new Estudiante
-					{
-						Nombre = row["Nombre"].ToString(),
-						Correo = row["Correo"].ToString(),
-					});
-
-				}
+					cmd.Connection.Open();
+					sda.Fill(dtResult);
+				});
 			}
 			catch (Exception ex)
 			{
@@ -84,18 +75,19 @@ namespace SdGsTEfunction.DataAccess
 			}
 			finally
 			{
-				if (consultarCmd.Connection.State == ConnectionState.Open)
+				if (cmd.Connection.State == ConnectionState.Open)
 				{
-					consultarCmd.Connection.Close();
+					cmd.Connection.Close();
 				}
 			}
 
-			return estudiantes;
+			return dtResult;
 		}
+	}
 
-		internal List<Estudiante> GetEstudiantes(int id)
-		{
-			return new List<Estudiante>();
-		}
+	public enum OrigenDatos
+	{
+		AzureEddye,
+		AzureChofen
 	}
 }
