@@ -16,21 +16,21 @@ namespace SdGsTEfunction.Funciones
 {
 	public class ConsultarCrearMaterias
 	{
-		private readonly MateriasBL logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureEddye);
+		private readonly MateriasBL logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureChofen);
 
 		[Function("ConsultarCrearMaterias")]
-		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "materias")] HttpRequestData req)
+		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "materias")] HttpRequestData req)
 		{
 			if (req.Method == HttpMethods.Post)
 			{
 				string contenidoSolicitud = await new StreamReader(req.Body).ReadToEndAsync();
 				Materia materia = JsonConvert.DeserializeObject<Materia>(contenidoSolicitud);
-				int restultado = await logicaMaterias.CrearMateria(materia);
+				int restultado = await logicaMaterias.CrearAsync(materia);
 
 				return new OkObjectResult(restultado);
 			}
 
-			List<Materia> materias = await logicaMaterias.Materias();
+			List<Materia> materias = await logicaMaterias.EnlistarAsync();
 			return new OkObjectResult(materias);
 		}
 	}

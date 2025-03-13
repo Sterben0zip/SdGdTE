@@ -15,6 +15,7 @@ namespace SdGsTEfunction
                 .ConfigureServices(services => {
                     services.AddApplicationInsightsTelemetryWorkerService();
                     services.ConfigureFunctionsApplicationInsights();
+                    
                 })
                 .Build();
 

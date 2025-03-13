@@ -32,17 +32,16 @@ namespace SdGsTEfunction.LogicaNegocio
 			return res;
 		}
 
-		public async Task<List<Tarea>> EnlistarAsync()
+		public Task<List<Tarea>> EnlistarAsync()
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task<List<Tarea>> EnlistarAsync(int estudianteId, int materiaId)
+		public async Task<List<Tarea>> EnlistarAsync(int estudianteId)
 		{
 			List<Tarea> tareas = new List<Tarea>();
-			SqlCommand consultarCmd = new SqlCommand("SELECT * FROM TAREAS WHERE EstudianteId = @estudianteId AND Materia = @materiaId");
+			SqlCommand consultarCmd = new SqlCommand("SELECT * FROM TAREAS WHERE EstudianteId = @estudianteId");
 			consultarCmd.Parameters.AddWithValue("@estudianteId", estudianteId);
-			consultarCmd.Parameters.AddWithValue("@materiaId", materiaId);
 
 			DataTable tareasDt = await _datos.EjecutarConsulta(consultarCmd);
 
@@ -50,34 +49,60 @@ namespace SdGsTEfunction.LogicaNegocio
 			{
 				tareas.Add(new Tarea
 				{
-					Id = (int)fila["Id"],
-					Titulo = (string)fila["Titulo"],
-					FechaEntrega = (DateTime)fila["FechaEntrega"],
-					Completado = (bool)fila["Completado"],
-					Descripcion = (string)fila["Descripcion"],
-					EstudianteId = (int)fila["EstudianteId"],
-					MateriaId = (int)fila["MateriaId"]
+					Id = Convert.ToInt32(fila["Id"]),
+					Titulo = fila["Titulo"].ToString(),
+					FechaEntrega = Convert.ToDateTime(fila["FechaEntrega"]),
+					Completado = Convert.ToBoolean(fila["Completado"]),
+					Descripcion = fila["Descripcion"].ToString(),
+					EstudianteId = Convert.ToInt32(fila["EstudianteId"]),
+					MateriaId = Convert.ToInt32(fila["MateriaId"])
 				});
 			}
 
 			return tareas;
 		}
 
-		public Task<Tarea> Obtener(int tareaId)
+		public async Task<Tarea> Obtener(int tareaId)
 		{
-			throw new NotImplementedException();
+			SqlCommand consultarCmd = new SqlCommand("SELECT * FROM TAREAS WHERE Id = @tareaId");
+			consultarCmd.Parameters.AddWithValue("@tareaId", tareaId);
+			DataTable tareaDt = await _datos.EjecutarConsulta(consultarCmd);
+
+			Tarea tarea = new Tarea
+			{
+				Id = Convert.ToInt32(tareaDt.Rows[0]["Id"]),
+				Titulo = tareaDt.Rows[0]["Titulo"].ToString(),
+				FechaEntrega = Convert.ToDateTime(tareaDt.Rows[0]["FechaEntrega"]),
+				Completado = Convert.ToBoolean(tareaDt.Rows[0]["Completado"]),
+				Descripcion = tareaDt.Rows[0]["Descripcion"].ToString(),
+				EstudianteId = Convert.ToInt32(tareaDt.Rows[0]["EstudianteId"]),
+				MateriaId = Convert.ToInt32(tareaDt.Rows[0]["MateriaId"])
+			};
+			
+			return tarea;
 		}
 
-		public Task<int> ActualizarAsync(Tarea tarea, int tareaId)
+		public async Task<int> ActualizarAsync(Tarea tarea, int tareaId)
 		{
-			throw new NotImplementedException();
+			SqlCommand actualizaCmd = new SqlCommand("UPDATE TAREAS SET Titulo= @titulo, FechaEntrega = @fechaEntrega, Completado = @completado, Descripcion = @descripcion WHERE Id = @tareaId");
+			actualizaCmd.Parameters.AddWithValue("@tareaId", tareaId);
+			actualizaCmd.Parameters.AddWithValue("@titulo", tarea.Titulo);
+			actualizaCmd.Parameters.AddWithValue("@fechaEntrega", tarea.FechaEntrega);
+			actualizaCmd.Parameters.AddWithValue("@completado", tarea.Completado);
+			actualizaCmd.Parameters.AddWithValue("@descripcion", tarea.Descripcion);
+
+			int res = await _datos.EjecutarComando(actualizaCmd);
+			return res;
 		}
 
-
-
-		public Task<int> EliminarAsync(int tareaId)
+		public async Task<int> EliminarAsync(int tareaId)
 		{
-			throw new NotImplementedException();
+			SqlCommand eliminarCmd = new SqlCommand("DELETE FROM TAREAS WHERE ID = @id");
+			eliminarCmd.Parameters.AddWithValue("@id", tareaId);
+
+			int res = await _datos.EjecutarComando(eliminarCmd);
+
+			return res;
 		}
 	}
 }

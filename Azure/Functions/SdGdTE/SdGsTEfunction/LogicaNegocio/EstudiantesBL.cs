@@ -51,19 +51,44 @@ namespace SdGsTEfunction.LogicaNegocio
 
 		public async Task<Estudiante> Obtener(int estudianteId)
 		{
+			Estudiante estudiante = null;
 			SqlCommand consultarCmd = new SqlCommand("SELECT * FROM ESTUDIANTES WHERE Id = @id");
 			consultarCmd.Parameters.AddWithValue("@id", estudianteId);
 
 			DataTable estudianteDt = await _datos.EjecutarConsulta(consultarCmd);
 
-			Estudiante estudiantes = new Estudiante
+			if (estudianteDt.Rows.Count > 0)
 			{
-				Id = Convert.ToInt32(estudianteDt.Rows[0]["Id"]),
-				Nombre = estudianteDt.Rows[0]["Nombre"].ToString(),
-				Correo = estudianteDt.Rows[0]["Correo"].ToString(),
-			};
+				estudiante = new Estudiante
+				{
+					Id = Convert.ToInt32(estudianteDt.Rows[0]["Id"]),
+					Nombre = estudianteDt.Rows[0]["Nombre"].ToString(),
+					Correo = estudianteDt.Rows[0]["Correo"].ToString(),
+				};
+			}
 
-			return estudiantes;
+			return estudiante;
+		}
+
+		public async Task<Estudiante> Obtener(string correo)
+		{
+			Estudiante estudiante = null;
+			SqlCommand cmd = new SqlCommand("SELECT * FROM ESTUDIANTES WHERE Correo = @correo");
+			cmd.Parameters.AddWithValue("@correo", correo);
+			DataTable estudianteDt = await _datos.EjecutarConsulta(cmd);
+
+			if (estudianteDt.Rows.Count > 0)
+			{
+				estudiante = new Estudiante
+				{
+					Id = Convert.ToInt32(estudianteDt.Rows[0]["Id"]),
+					Nombre = estudianteDt.Rows[0]["Nombre"].ToString(),
+					Correo = estudianteDt.Rows[0]["Correo"].ToString(),
+					Password = estudianteDt.Rows[0]["Password"].ToString()
+				};
+			}
+
+			return estudiante;
 		}
 
 		public async Task<int> ActualizarAsync(Estudiante estudiante, int estudianteId)

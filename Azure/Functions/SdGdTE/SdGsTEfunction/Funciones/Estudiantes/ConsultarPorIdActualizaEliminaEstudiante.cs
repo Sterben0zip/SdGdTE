@@ -9,21 +9,20 @@ using SdGsTEfunction.LogicaNegocio;
 using SdGsTEfunction.Models;
 
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace SdGsTEfunction.Funciones
 {
     public class ConsultarPorIdActualizaEliminaEstudiante
     {
-		private readonly EstudiantesBL logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureEddye);
+		private readonly EstudiantesBL logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureChofen);
 
 		[Function("ConsultarPorIdActualizaEliminaEstudiante")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "put", "delete", Route = "estudiantes/{estudianteId}")] HttpRequestData req, int estudianteId)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "put", "delete", Route = "estudiantes/{estudianteId}")] HttpRequestData req, int estudianteId)
         {
             if (req.Method == HttpMethods.Get)
             {
-                Estudiante estudiante = await logicaEstudiantes.Estudiante(estudianteId);
+                Estudiante estudiante = await logicaEstudiantes.Obtener(estudianteId);
                 if (estudiante == null) return new NotFoundResult();
 
                 return new OkObjectResult(estudiante);
@@ -34,15 +33,15 @@ namespace SdGsTEfunction.Funciones
                 Estudiante estudiante = JsonConvert.DeserializeObject<Estudiante>(contenidoSolicitud);
                 estudiante.Id = estudianteId;
 
-                int res = await logicaEstudiantes.ActualizaEstudiante(estudiante, estudianteId);
+                int res = await logicaEstudiantes.ActualizarAsync(estudiante, estudianteId);
                 return new OkObjectResult(res);
 			}
             else
             {
-                Estudiante estudiante = await logicaEstudiantes.Estudiante(estudianteId);
+                Estudiante estudiante = await logicaEstudiantes.Obtener(estudianteId);
                 if (estudiante == null) return new NotFoundResult();
 
-                int res = await logicaEstudiantes.EliminaEstudiante(estudianteId);
+                int res = await logicaEstudiantes.EliminarAsync(estudianteId);
                 return new OkObjectResult(res);
             }
         }

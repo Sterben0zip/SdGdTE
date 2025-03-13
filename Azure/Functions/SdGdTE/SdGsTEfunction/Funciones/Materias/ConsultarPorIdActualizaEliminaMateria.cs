@@ -16,14 +16,14 @@ namespace SdGsTEfunction.Funciones
 {
     public class ConsultarPorIdActualizaEliminaMateria
     {
-        private readonly MateriasBL _logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureEddye);
+        private readonly MateriasBL _logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureChofen);
 
 		[Function("ConsultarPorIdActualizaEliminaMateria")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "put", "delete", Route = "materias/{materiaId}")] HttpRequestData req, int materiaId)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "put", "delete", Route = "materias/{materiaId}")] HttpRequestData req, int materiaId)
         {
             if (req.Method == HttpMethods.Get)
             {
-                Materia materia = await _logicaMaterias.Materia(materiaId);
+                Materia materia = await _logicaMaterias.Obtener(materiaId);
                 if (materia == null) return new NotFoundResult();
 
                 return new OkObjectResult(materia);
@@ -36,15 +36,15 @@ namespace SdGsTEfunction.Funciones
 				materia = JsonConvert.DeserializeObject<Materia>(contenidoSolicitud);
 				materia.Id = materiaId;
 
-                int res = await _logicaMaterias.ActualizarMateria(materia, materiaId);
+                int res = await _logicaMaterias.ActualizarAsync(materia, materiaId);
                 return new OkObjectResult(res);
 			}
             else
             {
-                Materia materia = await _logicaMaterias.Materia(materiaId);
+                Materia materia = await _logicaMaterias.Obtener(materiaId);
                 if (materia == null) return new NotFoundResult();
 
-                int res = await _logicaMaterias.EliminaMateria(materiaId);
+                int res = await _logicaMaterias.EliminarAsync(materiaId);
                 return new OkObjectResult(res);
             }
         }

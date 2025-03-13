@@ -16,21 +16,21 @@ namespace SdGsTEfunction.Funciones
 {
 	public class ConsultarCrearEstudiantes
 	{
-		private readonly EstudiantesBL logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureEddye);
+		private readonly EstudiantesBL _logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureChofen);
 
 		[Function("ConsultarCrearEstudiantes")]
-		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "estudiantes")] HttpRequestData req)
+		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "estudiantes")] HttpRequestData req)
 		{
 			if (req.Method == HttpMethods.Post)
 			{
 				string contenidoSolicitud = await new StreamReader(req.Body).ReadToEndAsync();
 				Estudiante estudiante = JsonConvert.DeserializeObject<Estudiante>(contenidoSolicitud);
-				int restultado = await logicaEstudiantes.CrearEstudiante(estudiante);
+				int restultado = await _logicaEstudiantes.CrearAsync(estudiante);
 
 				return new OkObjectResult(restultado);
 			}
 
-			List<Estudiante> estudiantes = await logicaEstudiantes.Estudiantes();
+			List<Estudiante> estudiantes = await _logicaEstudiantes.EnlistarAsync();
 			return new OkObjectResult(estudiantes);
 		}
 	}
