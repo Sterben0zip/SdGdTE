@@ -32,7 +32,6 @@ namespace SdGsTEfunction.Funciones
             {
                 string contenidoSolicitud = await new StreamReader(req.Body).ReadToEndAsync();
                 Tarea tarea = JsonConvert.DeserializeObject<Tarea>(contenidoSolicitud);
-                tarea.Id = tareaId;
                 int res = await _logicaTareas.ActualizarAsync(tarea, tareaId);
 
                 return new OkObjectResult(res);

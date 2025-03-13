@@ -48,7 +48,7 @@
 				<input type="Password" class="form-control" id="password" name="password">
 			</div>
 			<div>
-				<button onclick="iniciarSesion()" class="btn btn-success">Iniciar Sesion</button>
+				<button id="btnIniciarSesion" onclick="iniciarSesion()" class="btn btn-success">Iniciar Sesion</button>
 			</div>
 		</div>
 		<div class="col-sm-12">
@@ -58,6 +58,7 @@
 	
 	<script>
 		$(document).ready(function () {
+			$("#correo").val(window.location.search.split('correo=')[1]);
 		});
 	</script>
 </body>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SdGsTEfunction.LogicaNegocio
@@ -47,16 +48,7 @@ namespace SdGsTEfunction.LogicaNegocio
 
 			foreach (DataRow fila in tareasDt.Rows)
 			{
-				tareas.Add(new Tarea
-				{
-					Id = Convert.ToInt32(fila["Id"]),
-					Titulo = fila["Titulo"].ToString(),
-					FechaEntrega = Convert.ToDateTime(fila["FechaEntrega"]),
-					Completado = Convert.ToBoolean(fila["Completado"]),
-					Descripcion = fila["Descripcion"].ToString(),
-					EstudianteId = Convert.ToInt32(fila["EstudianteId"]),
-					MateriaId = Convert.ToInt32(fila["MateriaId"])
-				});
+				tareas.Add(await PrepararTarea(fila));
 			}
 
 			return tareas;
@@ -68,28 +60,20 @@ namespace SdGsTEfunction.LogicaNegocio
 			consultarCmd.Parameters.AddWithValue("@tareaId", tareaId);
 			DataTable tareaDt = await _datos.EjecutarConsulta(consultarCmd);
 
-			Tarea tarea = new Tarea
-			{
-				Id = Convert.ToInt32(tareaDt.Rows[0]["Id"]),
-				Titulo = tareaDt.Rows[0]["Titulo"].ToString(),
-				FechaEntrega = Convert.ToDateTime(tareaDt.Rows[0]["FechaEntrega"]),
-				Completado = Convert.ToBoolean(tareaDt.Rows[0]["Completado"]),
-				Descripcion = tareaDt.Rows[0]["Descripcion"].ToString(),
-				EstudianteId = Convert.ToInt32(tareaDt.Rows[0]["EstudianteId"]),
-				MateriaId = Convert.ToInt32(tareaDt.Rows[0]["MateriaId"])
-			};
-			
+			Tarea tarea = tareaDt.Rows.Count > 0 ? await PrepararTarea(tareaDt.Rows[0]) : null;
+
 			return tarea;
 		}
 
 		public async Task<int> ActualizarAsync(Tarea tarea, int tareaId)
 		{
-			SqlCommand actualizaCmd = new SqlCommand("UPDATE TAREAS SET Titulo= @titulo, FechaEntrega = @fechaEntrega, Completado = @completado, Descripcion = @descripcion WHERE Id = @tareaId");
+			SqlCommand actualizaCmd = new SqlCommand("UPDATE TAREAS SET Titulo= @titulo, FechaEntrega = @fechaEntrega, Completado = @completado, Descripcion = @descripcion, MateriaId = @materiaId WHERE Id = @tareaId");
 			actualizaCmd.Parameters.AddWithValue("@tareaId", tareaId);
 			actualizaCmd.Parameters.AddWithValue("@titulo", tarea.Titulo);
 			actualizaCmd.Parameters.AddWithValue("@fechaEntrega", tarea.FechaEntrega);
 			actualizaCmd.Parameters.AddWithValue("@completado", tarea.Completado);
 			actualizaCmd.Parameters.AddWithValue("@descripcion", tarea.Descripcion);
+			actualizaCmd.Parameters.AddWithValue("@materiaId", tarea.MateriaId);
 
 			int res = await _datos.EjecutarComando(actualizaCmd);
 			return res;
@@ -103,6 +87,24 @@ namespace SdGsTEfunction.LogicaNegocio
 			int res = await _datos.EjecutarComando(eliminarCmd);
 
 			return res;
+		}
+
+		private async Task<Tarea> PrepararTarea(DataRow fila)
+		{
+			Tarea tarea = new Tarea
+			{
+				Id = Convert.ToInt32(fila["Id"]),
+				Titulo = fila["Titulo"].ToString(),
+				FechaEntrega = Convert.ToDateTime(fila["FechaEntrega"]),
+				Completado = Convert.ToBoolean(fila["Completado"]),
+				Descripcion = fila["Descripcion"].ToString(),
+				EstudianteId = Convert.ToInt32(fila["EstudianteId"]),
+				MateriaId = Convert.ToInt32(fila["MateriaId"])
+			};
+
+			tarea.Materia = await new MateriasBL(OrigenDatos.AzureChofen).Obtener(tarea.MateriaId);
+
+			return tarea;
 		}
 	}
 }

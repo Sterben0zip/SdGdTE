@@ -56,7 +56,3 @@ verEstudiante = async () => {
 		$('#correoEstudiante').html(datos.Correo);
 	}
 }
-
-verTareas = () => {
-	window.location.href = 'tareas.html?estudianteId=' + estudianteId;
-}
