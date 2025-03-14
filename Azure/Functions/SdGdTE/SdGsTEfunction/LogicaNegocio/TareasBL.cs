@@ -102,7 +102,7 @@ namespace SdGsTEfunction.LogicaNegocio
 				MateriaId = Convert.ToInt32(fila["MateriaId"])
 			};
 
-			tarea.Materia = await new MateriasBL(OrigenDatos.AzureChofen).Obtener(tarea.MateriaId);
+			tarea.Materia = await new MateriasBL(OrigenDatos.AzureEddye).Obtener(tarea.MateriaId);
 
 			return tarea;
 		}

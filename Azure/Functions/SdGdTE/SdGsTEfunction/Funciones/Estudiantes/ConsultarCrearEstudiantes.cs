@@ -5,6 +5,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 
 using Newtonsoft.Json;
 
+using SdGsTEfunction.DataAccess;
 using SdGsTEfunction.LogicaNegocio;
 using SdGsTEfunction.Models;
 
@@ -16,7 +17,7 @@ namespace SdGsTEfunction.Funciones
 {
 	public class ConsultarCrearEstudiantes
 	{
-		private readonly EstudiantesBL _logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureChofen);
+		private readonly EstudiantesBL _logicaEstudiantes = new EstudiantesBL(OrigenDatos.AzureEddye);
 
 		[Function("ConsultarCrearEstudiantes")]
 		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "estudiantes")] HttpRequestData req)

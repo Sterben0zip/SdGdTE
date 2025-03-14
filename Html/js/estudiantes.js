@@ -15,7 +15,7 @@ getEstudiantes = async () => {
 		}
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/estudiantes`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/estudiantes`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -32,7 +32,7 @@ getEstudiante = async (id) => {
 		}
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/estudiantes/${id}`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/estudiantes/${id}`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -50,7 +50,7 @@ updateEstudiante = async (estudianteId, datos) => {
 		body: JSON.stringify(datos)
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/estudiantes/${estudianteId}`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/estudiantes/${estudianteId}`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {

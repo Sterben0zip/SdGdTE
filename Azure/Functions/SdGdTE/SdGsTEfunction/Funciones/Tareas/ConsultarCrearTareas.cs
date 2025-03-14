@@ -16,7 +16,7 @@ namespace SdGsTEfunction.Funciones
 {
     public class ConsultarCrearTareas
     {
-        private readonly TareasBL _logicaTareas = new TareasBL(DataAccess.OrigenDatos.AzureChofen);
+        private readonly TareasBL _logicaTareas = new TareasBL(DataAccess.OrigenDatos.AzureEddye);
         [Function("ConsultarCrearTareas")]
 		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "tareas")] HttpRequestData req, int estudianteId)
 		{

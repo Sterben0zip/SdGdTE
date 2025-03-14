@@ -14,7 +14,7 @@ namespace SdGsTEfunction.Funciones.Accounting
 {
     public class Registrar
     {
-		AccountingBL _logicaAccount = new AccountingBL(OrigenDatos.AzureChofen);
+		AccountingBL _logicaAccount = new AccountingBL(OrigenDatos.AzureEddye);
 
 		[Function("Registrar")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "registro")] HttpRequestData req)

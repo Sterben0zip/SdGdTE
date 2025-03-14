@@ -16,7 +16,7 @@ namespace SdGsTEfunction.Funciones
 {
     public class ConsultarPorIdActualizarEliminar
     {
-        private readonly TareasBL _logicaTareas = new TareasBL(OrigenDatos.AzureChofen);
+        private readonly TareasBL _logicaTareas = new TareasBL(OrigenDatos.AzureEddye);
 
         [Function("ConsultarPorIdActualizaEliminaTarea")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "put", "delete", Route = "tareas/{tareaId}")] HttpRequestData req, int tareaId)

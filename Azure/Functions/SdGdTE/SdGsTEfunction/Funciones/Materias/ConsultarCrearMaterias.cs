@@ -16,7 +16,7 @@ namespace SdGsTEfunction.Funciones
 {
 	public class ConsultarCrearMaterias
 	{
-		private readonly MateriasBL logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureChofen);
+		private readonly MateriasBL logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureEddye);
 
 		[Function("ConsultarCrearMaterias")]
 		public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "materias")] HttpRequestData req)

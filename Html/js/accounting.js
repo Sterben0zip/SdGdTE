@@ -16,7 +16,7 @@ login = async (datos) => {
 	};
 
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/login`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/login`, settings);
 		const result = await fetchResponse.json();
 		return result;
 	} catch (e) {
@@ -34,7 +34,7 @@ registrar = async (datos) => {
 		body: JSON.stringify(datos)
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/registro`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/registro`, settings);
 		const result = await fetchResponse.json();
 		return result;
 	} catch (e) {

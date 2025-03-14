@@ -15,7 +15,7 @@ namespace SdGsTEfunction.Funciones
 {
     public class ConsultarPorIdActualizaEliminaEstudiante
     {
-		private readonly EstudiantesBL logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureChofen);
+		private readonly EstudiantesBL logicaEstudiantes = new EstudiantesBL(DataAccess.OrigenDatos.AzureEddye);
 
 		[Function("ConsultarPorIdActualizaEliminaEstudiante")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "put", "delete", Route = "estudiantes/{estudianteId}")] HttpRequestData req, int estudianteId)

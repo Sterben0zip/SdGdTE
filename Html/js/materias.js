@@ -15,7 +15,7 @@ addMateria = async (datos) => {
 		body: JSON.stringify(datos)
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/materias`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/materias`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -32,7 +32,7 @@ getMaterias = async () => {
 		},
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/materias`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/materias`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {

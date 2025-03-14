@@ -16,7 +16,7 @@ namespace SdGsTEfunction.Funciones
 {
     public class ConsultarPorIdActualizaEliminaMateria
     {
-        private readonly MateriasBL _logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureChofen);
+        private readonly MateriasBL _logicaMaterias = new MateriasBL(DataAccess.OrigenDatos.AzureEddye);
 
 		[Function("ConsultarPorIdActualizaEliminaMateria")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "put", "delete", Route = "materias/{materiaId}")] HttpRequestData req, int materiaId)

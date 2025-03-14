@@ -17,7 +17,7 @@ addTarea = async (datos) => {
 		body: JSON.stringify(datos)
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/tareas`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/tareas`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -35,7 +35,7 @@ updateTarea = async (id, datos) => {
 		body: JSON.stringify(datos)
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/tareas/${id}`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/tareas/${id}`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -52,7 +52,7 @@ getTarea = async (id) => {
 		}
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/tareas/${id}`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/tareas/${id}`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -69,7 +69,7 @@ getTareas = async (estudianteId) => {
 		},
 	};
 	try {
-		const fetchResponse = await fetch('https://lmazfunction.azurewebsites.net/api/tareas?estudianteId=' + estudianteId, settings);
+		const fetchResponse = await fetch('https://sdgstefunction.azurewebsites.net/api/tareas?estudianteId=' + estudianteId, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
@@ -86,7 +86,7 @@ deleteTarea = async (id) => {
 		}
 	};
 	try {
-		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/tareas/${id}`, settings);
+		const fetchResponse = await fetch(`https://sdgstefunction.azurewebsites.net/api/tareas/${id}`, settings);
 		const data = await fetchResponse.json();
 		return data;
 	} catch (e) {
