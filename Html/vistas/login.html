@@ -55,12 +55,15 @@
 			<a href="Registro.html">Registrarse</a>
 		</div>
 	</div>
-	
+	<div  class="d-flex justify-content-center">
+		<div id="spinn" hidden class="spinner-grow text-warning" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
 	<script>
 		$(document).ready(function () {
 			$("#correo").val(window.location.search.split('correo=')[1]);
 		});
 	</script>
 </body>
-
 </html>

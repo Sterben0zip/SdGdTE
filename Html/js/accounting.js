@@ -48,10 +48,11 @@ registrar = async (datos) => {
 
 iniciarSesion = async () => {
 	$("#btnIniciarSesion").prop('disabled', true);
+	$("#spinn").attr('hidden', false);
 
 	let datos = {
 		correo: $('#correo').val(),
-		password: encryptString($('#password').val())
+		password: $('#password').val()
 	};
 
 	let result = await login(datos);
@@ -67,6 +68,7 @@ iniciarSesion = async () => {
 	}
 
 	$("#btnIniciarSesion").prop('disabled', false);
+	$("#spinn").attr('hidden', true);
 };
 
 
@@ -75,7 +77,7 @@ registro = async ()=> {
 
 	let datos = {
 		correo: $('#correo').val(),
-		password: encryptString($('#password').val()),
+		password: $('#password').val(),
 		nombre: $('#nombre').val()
 	};
 	

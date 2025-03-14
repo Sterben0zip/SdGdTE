@@ -40,6 +40,25 @@ getEstudiante = async (id) => {
 	}
 }
 
+updateEstudiante = async (estudianteId, datos) => {
+	const settings = {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(datos)
+	};
+	try {
+		const fetchResponse = await fetch(`https://lmazfunction.azurewebsites.net/api/estudiantes/${estudianteId}`, settings);
+		const data = await fetchResponse.json();
+		return data;
+	} catch (e) {
+		return e;
+	}
+}
+
+
 /* ****************************************************************************************
 *                                    JS Functions
 **************************************************************************************** */
@@ -55,4 +74,36 @@ verEstudiante = async () => {
 		$('#nombreEstudiante').html(datos.Nombre);
 		$('#correoEstudiante').html(datos.Correo);
 	}
+}
+
+editarAlumno = async () => {
+	$("#modalEditar").modal('toggle');
+
+	if (estudianteId != 0) {
+		let datos = (await getEstudiante(estudianteId)).Value;
+		$('#nombreEditar').val(datos.Nombre);
+		$('#correoEditar').val(datos.Correo);
+		$('#passEditar').val(datos.Password);
+	}
+}
+
+actualizarDatos = async () => {
+	$("#btnEditar").attr("disabled", true);
+	let datos = {
+		"Nombre": $('#nombreEditar').val(),
+		"Correo": $('#correoEditar').val(),
+		"Password": $('#passEditar').val()
+	};
+
+	let result = (await updateEstudiante(estudianteId, datos)).Value;
+
+	if (result > 0) {
+		alert('Datos actualizados');
+		$("#modalEditar").modal('toggle');
+		$('#nombreEstudiante').html(datos.nombre);
+		$('#correoEstudiante').html(datos.correo);
+	} else {
+		alert('Error al actualizar datos');
+	}
+	$("#btnEditar").attr("disabled", false);
 }

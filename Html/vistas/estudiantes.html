@@ -51,11 +51,49 @@
 						<div class="float-end">
 							<a href="#" onclick="navegar('tareas')"><span class="material-icons">list</span></a>
 						</div>
+						<div class="float-end">
+							<a href="#" onclick="editarAlumno()"><span class="material-icons">edit</span></a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="modal" id="modalEditar">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Editar datos</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label hidden for="idEditar" class="form-label">Id:</label>
+						<input hidden disabled type="text" class="form-control" id="idEditar" name="idEditar">
+					</div>
+					<div class="mb-3">
+						<label for="nombreEditar" class="form-label">Nombre:</label>
+						<input type="text" class="form-control" id="nombreEditar" name="nombreEditar">
+					</div>
+					<div class="mb-3">
+						<label for="correoEditar" class="form-label">Correo:</label>
+						<input type="email" class="form-control" id="correoEditar" name="correoEditar">
+					</div>
+					<div class="mb-3">
+						<label for="passEditar" class="form-label">Contraseña:</label>
+						<input type="password" class="form-control" id="passEditar" name="passEditar">
+					</div>
+					<div class="float-end">
+						<button id="btnActualizar" type="button" class="btn btn-success" onclick="actualizarDatos();">
+							Guardar
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script>
 		$(document).ready(function () {
 			verEstudiante();

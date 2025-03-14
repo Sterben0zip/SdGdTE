@@ -93,10 +93,11 @@ namespace SdGsTEfunction.LogicaNegocio
 
 		public async Task<int> ActualizarAsync(Estudiante estudiante, int estudianteId)
 		{
-			SqlCommand actualizarCmd = new SqlCommand("UPDATE ESTUDIANTES SET Nombre = @nombre, Correo = @correo,  WHERE Id = @id");
+			SqlCommand actualizarCmd = new SqlCommand("UPDATE ESTUDIANTES SET Nombre = @nombre, Correo = @correo, [Password] = @password WHERE Id = @id");
 			actualizarCmd.Parameters.AddWithValue("@id", estudianteId);
 			actualizarCmd.Parameters.AddWithValue("@nombre", estudiante.Nombre);
 			actualizarCmd.Parameters.AddWithValue("@correo", estudiante.Correo);
+			actualizarCmd.Parameters.AddWithValue("@password", estudiante.Password);
 
 			int res = await _datos.EjecutarComando(actualizarCmd);
 

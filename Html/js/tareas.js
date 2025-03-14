@@ -98,7 +98,9 @@ deleteTarea = async (id) => {
 *                                    JS Functions
 **************************************************************************************** */
 guardarTarea = async () => {
+	$("#spinn").attr('hidden', false);
 	$("#btnCrear").attr("disabled", true);
+	
 	let datos = {
 		"titulo": $('#titulo').val(),
 		"fechaEntrega": $('#fecha').val(),
@@ -124,16 +126,19 @@ guardarTarea = async () => {
 	}
 
 	$("#btnCrear").attr("disabled", false);
+	$("#spinn").attr('hidden', true);
 };
 
 carga = async () => {
+	$("#spinn").attr('hidden', false);
 	estudianteId = window.location.search.split('estudianteId=')[1]
 	let tareas = (await getTareas(estudianteId)).Value;
 
 	for (var i = 0; i < tareas.length; i++) {
 		$('#tareas').append('<tr><td>' + tareas[i].Titulo + '</td><td>' + tareas[i].FechaEntrega.substring(0,10) + '</td><td>' + (tareas[i].Completado ? "Completado" : "No completado") + '</td><td>' + tareas[i].Materia.Nombre + '</td><td> <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="editar('+ tareas[i].Id +')">Editar</button> | <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalEliminar" onclick="eliminar('+ tareas[i].Id +')">Eliminar</button> </td> </tr>');
 	};
-	cargarMaterias();
+	await cargarMaterias();
+	$("#spinn").attr('hidden', true);
 };
 
 cargarMaterias = async () => {
@@ -160,6 +165,7 @@ editar = async (id) => {
 }
 
 actualizarTarea = async () => {
+	$("#spinn").attr('hidden', false);
 	$("#btnActualizar").attr("disabled", true);
 	
 	let datos = {
@@ -187,9 +193,11 @@ actualizarTarea = async () => {
 	}
 
 	$("#btnActualizar").attr("disabled", false);
+	$("#spinn").attr('hidden', true);
 }
 
 eliminar = async (id) => {
+	$("#spinn").attr('hidden', false);
 	await editar(id);
 	$('#idEditar').attr("disabled", true);
 	$('#tituloEditar').attr("disabled", true);
@@ -200,9 +208,11 @@ eliminar = async (id) => {
 	$("#btnActualizar").attr("hidden", true);
 	$("#btnEliminar").attr("hidden", false);
 	$("#modalEditar").modal('toggle');
+	$("#spinn").attr('hidden', true);
 }
 
 confirmarEliminar = async () => {
+	$("#spinn").attr('hidden', false);
 	$("#btnEliminar").attr("disabled", true);
 	let result = (await deleteTarea($('#idEditar').val())).Value;
 
@@ -223,6 +233,7 @@ confirmarEliminar = async () => {
 	}
 
 	$("#btnEliminar").attr("disabled", false);
+	$("#spinn").attr('hidden', true);
 }
 
 toggleCheck = (ipt) => {

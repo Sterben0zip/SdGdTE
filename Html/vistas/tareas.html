@@ -36,6 +36,12 @@
 		</div>
 	</nav>
 
+	<div  class="d-flex justify-content-center">
+		<div id="spinn" hidden class="spinner-grow text-warning" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+
 	<div style="margin: 15px;">
 		<div style="margin: auto; width: 80%;">
 			<div style="margin: 15px 0px;">
@@ -66,31 +72,29 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 					<div class="modal-body">
-						<form>
-							<div class="mb-3">
-								<label for="nombre" class="form-label">Titulo:</label>
-								<input type="text" class="form-control" id="titulo" name="titulo">
-							</div>
-							<div class="mb-3">
-								<label for="fecha" class="form-label">Fecha de entrega:</label>
-								<input type="date" class="form-control" id="fecha" name="fecha">
-							</div>
-							<div class="mb-3">
-								<label for="fecha" class="form-label">Descripcion:</label>
-								<input type="text" class="form-control" id="descripcion" name="descripcion">
-							</div>
-							<div class="mb-3">
-								<label for="estado" class="form-label">Materia:</label>
-								<select class="form-select" name="materias" id="materias">
-									<option value="0">Seleccione una materia</option>
-								</select>
-							</div>
-							<div class="float-end">
-								<button id="btnCrear" type="button" class="btn btn-success" onclick="guardarTarea();">
-									Guardar
-								</button>
-							</div>
-						</form>
+						<div class="mb-3">
+							<label for="nombre" class="form-label">Titulo:</label>
+							<input type="text" class="form-control" id="titulo" name="titulo">
+						</div>
+						<div class="mb-3">
+							<label for="fecha" class="form-label">Fecha de entrega:</label>
+							<input type="date" class="form-control" id="fecha" name="fecha">
+						</div>
+						<div class="mb-3">
+							<label for="fecha" class="form-label">Descripcion:</label>
+							<input type="text" class="form-control" id="descripcion" name="descripcion">
+						</div>
+						<div class="mb-3">
+							<label for="estado" class="form-label">Materia:</label>
+							<select class="form-select" name="materias" id="materias">
+								<option value="0">Seleccione una materia</option>
+							</select>
+						</div>
+						<div class="float-end">
+							<button id="btnCrear" type="button" class="btn btn-success" onclick="guardarTarea();">
+								Guardar
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -129,13 +133,16 @@
 							</div>
 							<div class="mb-3">
 								<label for="completadoEditar" class="form-label">Completado:</label>
-								<input type="checkbox" id="completadoEditar" onclick="toggleCheck(this)" name="completadoEditar">
+								<input type="checkbox" id="completadoEditar" onclick="toggleCheck(this)"
+									name="completadoEditar">
 							</div>
 							<div class="float-end">
-								<button id="btnActualizar" type="button" class="btn btn-success" onclick="actualizarTarea();">
+								<button id="btnActualizar" type="button" class="btn btn-success"
+									onclick="actualizarTarea();">
 									Guardar
 								</button>
-								<button hidden id="btnEliminar" type="button" class="btn btn-danger" onclick="confirmarEliminar();">
+								<button hidden id="btnEliminar" type="button" class="btn btn-danger"
+									onclick="confirmarEliminar();">
 									Eliminar
 								</button>
 							</div>
@@ -145,11 +152,11 @@
 			</div>
 		</div>
 	</div>
-		<script>
-			$(document).ready(function () {
-				carga();
-			});
-		</script>
+	<script>
+		$(document).ready(function () {
+			carga();
+		});
+	</script>
 </body>
 
 </html>
