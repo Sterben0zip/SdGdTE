@@ -1,0 +1,12 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        //"KeyVaultUrl": "http://sdgstefunction.azurewebsites.net"
+        "KeyVaultUrl": "lmazfunction.azurewebsites.net"
+    },
+    "ConnectionStrings": {
+        "azureDb": "Server=tcp:sdgdte.database.windows.net,1433;Initial Catalog=SdGdTEDB;Persist Security Info=False;User ID=sdgdte;Password=J2Tg6_gDdaMiJk-;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    }
+}
