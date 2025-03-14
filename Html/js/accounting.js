@@ -92,14 +92,3 @@ registro = async ()=> {
 
 	$("#btnRegistrar").prop('disabled', false);
 }
-
-encryptString = (message) => {
-	const key = CryptoJS.enc.Utf8.parse('7f963202-24fc-44');
-	const iv =  CryptoJS.enc.Utf8.parse('d989d54f-1ced-42');
-
-	return CryptoJS.AES.encrypt(message, key, {
-		iv: iv,
-		mode: CryptoJS.mode.CBC,
-		padding: CryptoJS.pad.ZeroPadding
-	}).toString();
-}
